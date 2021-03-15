@@ -48,6 +48,7 @@ public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.TeamVi
         return resultList.size();
     }
 
+
     public void setResults(List<SoccerResult> resultList) {
         this.resultList = resultList;
         notifyDataSetChanged();
@@ -58,6 +59,16 @@ public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.TeamVi
         public TeamViewHolder(@NonNull View itemView) {
             super(itemView);
             tvteam_name = itemView.findViewById(R.id.tvteam_name);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (listener != null && position != RecyclerView.NO_POSITION) {
+                        listener.onItemClick(resultList.get(position));
+                    }
+                }
+            });
         }
     }
 
