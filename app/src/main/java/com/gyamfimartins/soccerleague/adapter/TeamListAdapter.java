@@ -10,12 +10,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.gyamfimartins.soccerleague.R;
 import com.gyamfimartins.soccerleague.model.SoccerResult;
+import com.gyamfimartins.soccerleague.model.TeamResult;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.TeamViewHolder> {
-    private List<SoccerResult> resultList = new ArrayList<>();
+    private List<TeamResult> resultList;
     private OnItemClickListener listener;
     @NonNull
     @Override
@@ -27,20 +28,30 @@ public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.TeamVi
 
     @Override
     public void onBindViewHolder(@NonNull TeamViewHolder holder, int position) {
-        SoccerResult currentResult = resultList.get(position);
-
-        if (position == 0) {
-            holder.tvteam_name.setText(currentResult.getHomeTeamName());
-        } else {
-            SoccerResult previousResult = resultList.get(position - 1);
-            String previousName = previousResult.getHomeTeamName();
-            if (previousName.equals(currentResult.getHomeTeamName())) {
-                holder.tvteam_name.setVisibility(View.GONE);
-            } else {
-                holder.tvteam_name.setVisibility(View.VISIBLE);
-                holder.tvteam_name.setText(currentResult.getHomeTeamName());
+        TeamResult currentResult = resultList.get(position);
+      holder.textView_teamname.setText(currentResult.getHomeTeamName());
+       List<SoccerResult> soccerResults = currentResult.getSoccerResults();
+       int win =0;
+       int loss =0;
+       int draw = 0;
+       int totalmatches= soccerResults.size();
+        for(int i = 0; i< soccerResults.size(); i++){
+           int awayscore= soccerResults.get(i).getAwayScore();
+           int homescore = soccerResults.get(i).getHomeScore();
+            if(homescore > awayscore){
+                win++;
+            }
+            else if(homescore < awayscore){
+                loss++;
+            }else{
+                draw++;
             }
         }
+         double percentage = (win/totalmatches) * 100;
+         holder.textView_wins.setText(String.valueOf(win));
+        holder.textView_losses.setText(String.valueOf(loss));
+        holder.textView_draws.setText(String.valueOf(draw));
+        holder.textView_percent.setText(percentage + "%");
     }
 
     @Override
@@ -49,16 +60,20 @@ public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.TeamVi
     }
 
 
-    public void setResults(List<SoccerResult> resultList) {
+    public void setResults(List<TeamResult> resultList) {
         this.resultList = resultList;
         notifyDataSetChanged();
     }
 
     class TeamViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvteam_name;
+        private TextView textView_teamname,textView_wins,textView_losses,textView_draws,textView_percent;
         public TeamViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvteam_name = itemView.findViewById(R.id.tvteam_name);
+            textView_teamname =  itemView.findViewById(R.id.textView_teamname);
+            textView_wins =  itemView.findViewById(R.id.textView_wins);
+            textView_losses =  itemView.findViewById(R.id.textView_losses);
+            textView_draws =  itemView.findViewById(R.id.textView_draws);
+            textView_percent =  itemView.findViewById(R.id.textView_percent);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -73,7 +88,7 @@ public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.TeamVi
     }
 
     public interface OnItemClickListener {
-        void onItemClick(SoccerResult soccerResult);
+        void onItemClick(TeamResult teamResult);
     }
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;

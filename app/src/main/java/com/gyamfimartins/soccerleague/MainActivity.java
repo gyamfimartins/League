@@ -11,6 +11,7 @@ import android.os.Bundle;
 
 import com.gyamfimartins.soccerleague.adapter.TeamListAdapter;
 import com.gyamfimartins.soccerleague.model.SoccerResult;
+import com.gyamfimartins.soccerleague.model.TeamResult;
 import com.gyamfimartins.soccerleague.ui.ViewDetailsActivity;
 import com.gyamfimartins.soccerleague.util.SimpleDividerItemDecoration;
 import com.gyamfimartins.soccerleague.viewmodel.SoccerResultViewModel;
@@ -40,30 +41,27 @@ public class MainActivity extends AppCompatActivity {
 
         teamListAdapter.setOnItemClickListener(new TeamListAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(SoccerResult soccerResult) {
+            public void onItemClick(TeamResult teamResult) {
                 Intent intent = new Intent(MainActivity.this, ViewDetailsActivity.class);
-                intent.putExtra("HomeTeam", soccerResult.getHomeTeamName());
-                intent.putExtra("teamid", soccerResult.getHomeTeamId());
+                intent.putExtra("HomeTeam", teamResult.getHomeTeamName());
                 startActivity(intent);
             }
         });
 
 
-
-
-        getTeams();
+       getTeams();
     }
 
   private void getTeams(){
-      soccerResultViewModel.getAllresult().observe(this, new Observer<List<SoccerResult>>() {
-          @Override
-          public void onChanged(List<SoccerResult> soccerResults) {
-              teamListAdapter.setResults(soccerResults);
-              rvteams.setAdapter(teamListAdapter);
-              System.out.println(soccerResults.toString());
-          }
-      });
+     soccerResultViewModel.getAllresult().observe(this, new Observer<List<TeamResult>>() {
+         @Override
+         public void onChanged(List<TeamResult> teamResults) {
+             teamListAdapter.setResults(teamResults);
+             rvteams.setAdapter(teamListAdapter);
+         }
+     });
   }
+
 
 
 }

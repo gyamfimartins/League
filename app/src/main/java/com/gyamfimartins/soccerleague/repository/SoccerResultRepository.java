@@ -2,13 +2,18 @@ package com.gyamfimartins.soccerleague.repository;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+
 import com.gyamfimartins.soccerleague.model.SoccerResult;
+import com.gyamfimartins.soccerleague.model.TeamResult;
 import com.gyamfimartins.soccerleague.network.RetrofitRequest;
 import com.gyamfimartins.soccerleague.network.SoccerApi;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -20,8 +25,9 @@ public class SoccerResultRepository {
 
     }
 
-    public LiveData<List<SoccerResult>> getsoccerresults() {
-        final MutableLiveData<List<SoccerResult>> data = new MutableLiveData<>();
+    public LiveData<List<TeamResult>> getsoccerresults() {
+        final MutableLiveData<List<TeamResult>> data = new MutableLiveData<>();
+        final List<TeamResult> hometeamList = new ArrayList<>();
 
         SoccerApi soccerApi = RetrofitRequest.getRetrofitInstance().create(SoccerApi.class);
         Call<List<SoccerResult>> call = soccerApi.getSoccerResults();
@@ -34,6 +40,27 @@ public class SoccerResultRepository {
                     return;
                 }
                 List<SoccerResult> resultList = response.body();
+                Map<String, List<SoccerResult>> map = new HashMap<>();
+                for (SoccerResult result : resultList) {
+                    String name  = result.getHomeTeamName();
+                    if(map.containsKey(name)){
+                        List<SoccerResult> list = map.get(name);
+                        list.add(result);
+
+                    }else{
+                        List<SoccerResult> list = new ArrayList<SoccerResult>();
+                        list.add(result);
+                        map.put(name, list);
+                    }
+
+                }
+                for (Map.Entry mapElement : map.entrySet()) {
+                    TeamResult teamResult = new TeamResult();
+                    teamResult.setHomeTeamName((String)mapElement.getKey());
+                    teamResult.setSoccerResults((List<SoccerResult>)mapElement.getValue());
+                    hometeamList.add(teamResult);
+
+                }
 
 
                 Collections.sort(resultList, new Comparator<SoccerResult>() {
@@ -42,7 +69,13 @@ public class SoccerResultRepository {
                     }
                 });
 
-                data.setValue(resultList);
+                Collections.sort(hometeamList, new Comparator<TeamResult>() {
+                    public int compare(TeamResult s1, TeamResult s2) {
+                        return String.valueOf(s1.getHomeTeamName()).compareTo(s2.getHomeTeamName());
+                    }
+                });
+
+                data.setValue(hometeamList);
 
             }
 
@@ -58,7 +91,8 @@ public class SoccerResultRepository {
     }
 
 
+  private void getd(){
 
-
+  }
 
 }
