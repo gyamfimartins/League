@@ -10,13 +10,12 @@ import android.os.Bundle;
 
 import com.gyamfimartins.soccerleague.R;
 import com.gyamfimartins.soccerleague.adapter.OpponentListAdapter;
+import com.gyamfimartins.soccerleague.model.AwayTeamResult;
 import com.gyamfimartins.soccerleague.model.SoccerResult;
-import com.gyamfimartins.soccerleague.model.TeamResult;
+import com.gyamfimartins.soccerleague.model.HomeTeamResult;
 import com.gyamfimartins.soccerleague.viewmodel.SoccerResultViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ViewDetailsActivity extends AppCompatActivity {
     private SoccerResultViewModel soccerResultViewModel;
@@ -29,7 +28,7 @@ public class ViewDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_details);
 
-         HomeTeam = getIntent().getStringExtra("HomeTeam");
+        HomeTeam = getIntent().getStringExtra("HomeTeam");
         getSupportActionBar().setTitle(HomeTeam);
 
         rvopponent = findViewById(R.id.rvopponent);
@@ -44,27 +43,34 @@ public class ViewDetailsActivity extends AppCompatActivity {
         getteams();
     }
 
-    private void getteams(){
-        soccerResultViewModel.getAllresult().observe(this, new Observer<List<TeamResult>>() {
+    private void getteams() {
+        soccerResultViewModel.getAllresult().observe(this, new Observer<List<HomeTeamResult>>() {
             @Override
-            public void onChanged(List<TeamResult> teamResults) {
+            public void onChanged(List<HomeTeamResult> homeTeamResults) {
                 List<SoccerResult> filteredList = null;
-                for (TeamResult result : teamResults) {
-                    String name  = result.getHomeTeamName();
-                   if(name.equals(HomeTeam)){
+                for (HomeTeamResult result : homeTeamResults) {
+                    String name = result.getHomeTeamName();
+                    if (name.equals(HomeTeam)) {
                         filteredList = result.getSoccerResults();
-                   }
+                    }
 
                 }
+                getAwayteams(filteredList);
 
-                opponentListAdapter.setResults(filteredList);
-                rvopponent.setAdapter(opponentListAdapter);
             }
         });
     }
 
 
-
+    private void getAwayteams(List<SoccerResult> AwayList) {
+        soccerResultViewModel.getAllawayresult(AwayList).observe(this, new Observer<List<AwayTeamResult>>() {
+            @Override
+            public void onChanged(List<AwayTeamResult> awayTeamResults) {
+                opponentListAdapter.setResults(awayTeamResults);
+                rvopponent.setAdapter(opponentListAdapter);
+            }
+        });
+    }
 
 
 }

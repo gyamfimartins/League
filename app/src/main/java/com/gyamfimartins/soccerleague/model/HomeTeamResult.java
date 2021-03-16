@@ -2,7 +2,7 @@ package com.gyamfimartins.soccerleague.model;
 
 import java.util.List;
 
-public class TeamResult {
+public class HomeTeamResult {
     private String HomeTeamName;
     private List<SoccerResult> soccerResults;
 

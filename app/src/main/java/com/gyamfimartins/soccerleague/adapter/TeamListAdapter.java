@@ -10,13 +10,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.gyamfimartins.soccerleague.R;
 import com.gyamfimartins.soccerleague.model.SoccerResult;
-import com.gyamfimartins.soccerleague.model.TeamResult;
+import com.gyamfimartins.soccerleague.model.HomeTeamResult;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.TeamViewHolder> {
-    private List<TeamResult> resultList;
+    private List<HomeTeamResult> resultList;
     private OnItemClickListener listener;
     @NonNull
     @Override
@@ -26,9 +25,10 @@ public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.TeamVi
         return new TeamViewHolder(itemView);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull TeamViewHolder holder, int position) {
-        TeamResult currentResult = resultList.get(position);
+        HomeTeamResult currentResult = resultList.get(position);
       holder.textView_teamname.setText(currentResult.getHomeTeamName());
        List<SoccerResult> soccerResults = currentResult.getSoccerResults();
        int win =0;
@@ -60,7 +60,7 @@ public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.TeamVi
     }
 
 
-    public void setResults(List<TeamResult> resultList) {
+    public void setResults(List<HomeTeamResult> resultList) {
         this.resultList = resultList;
         notifyDataSetChanged();
     }
@@ -88,7 +88,7 @@ public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.TeamVi
     }
 
     public interface OnItemClickListener {
-        void onItemClick(TeamResult teamResult);
+        void onItemClick(HomeTeamResult homeTeamResult);
     }
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;

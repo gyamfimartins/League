@@ -13,3 +13,5 @@ public interface SoccerApi {
     @GET("soccer_data.json")
     Call<List<SoccerResult>> getSoccerResults();
 }
+
+
