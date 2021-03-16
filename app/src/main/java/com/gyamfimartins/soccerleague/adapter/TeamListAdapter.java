@@ -34,7 +34,7 @@ public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.TeamVi
        int win =0;
        int loss =0;
        int draw = 0;
-       int totalmatches= soccerResults.size();
+        double totalmatches= soccerResults.size();
         for(int i = 0; i< soccerResults.size(); i++){
            int awayscore= soccerResults.get(i).getAwayScore();
            int homescore = soccerResults.get(i).getHomeScore();
@@ -47,11 +47,11 @@ public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.TeamVi
                 draw++;
             }
         }
-         double percentage = (win/totalmatches) * 100;
+         double percentage = Math.round((win/totalmatches) * 100);
          holder.textView_wins.setText(String.valueOf(win));
         holder.textView_losses.setText(String.valueOf(loss));
         holder.textView_draws.setText(String.valueOf(draw));
-        holder.textView_percent.setText(percentage + "%");
+        holder.textView_percent.setText(String.valueOf(percentage));
     }
 
     @Override

@@ -2,7 +2,6 @@
 
     <TableLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -19,6 +18,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_column="0"
+            android:layout_weight=".4"
             android:text="TextView"
             android:background="@drawable/cell_shape"
             android:textAppearance="?android:attr/textAppearanceSmall"
@@ -29,6 +29,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_column="1"
+            android:textAlignment="center"
+            android:layout_weight=".15"
             android:text="0"
             android:background="@drawable/cell_shape"
             android:textAppearance="?android:attr/textAppearanceSmall"
@@ -39,6 +41,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_column="2"
+            android:textAlignment="center"
+            android:layout_weight=".15"
             android:text="0"
             android:background="@drawable/cell_shape"
             android:textAppearance="?android:attr/textAppearanceSmall"
@@ -49,7 +53,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_column="3"
+            android:textAlignment="center"
             android:text="0"
+            android:layout_weight=".15"
             android:background="@drawable/cell_shape"
             android:textAppearance="?android:attr/textAppearanceSmall"
             />
@@ -59,7 +65,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_column="4"
+            android:textAlignment="center"
             android:text="0"
+            android:layout_weight=".15"
             android:background="@drawable/cell_shape"
             android:textAppearance="?android:attr/textAppearanceSmall"
             />

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.gyamfimartins.soccerleague.R;
 import com.gyamfimartins.soccerleague.model.SoccerResult;
+import com.gyamfimartins.soccerleague.model.TeamResult;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,10 +32,11 @@ public class OpponentListAdapter extends RecyclerView.Adapter<OpponentListAdapte
     @Override
     public void onBindViewHolder(@NonNull OpponentViewHolder holder, int position) {
         SoccerResult currentResult = resultList.get(position);
-      holder.textView_teamname.setText(currentResult.getHomeTeamName());
-      holder.textView_wins.setText(String.valueOf(currentResult.getWins()));
-        holder.textView_draws.setText(String.valueOf(currentResult.getDraws()));
-        holder.textView_losses.setText(String.valueOf(currentResult.getLosses()));
+       holder.textView_teamname.setText(currentResult.getAwayTeamName());
+
+
+
+
     }
 
     @Override

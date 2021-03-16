@@ -63,11 +63,7 @@ public class SoccerResultRepository {
                 }
 
 
-                Collections.sort(resultList, new Comparator<SoccerResult>() {
-                    public int compare(SoccerResult s1, SoccerResult s2) {
-                        return String.valueOf(s1.getHomeTeamName()).compareTo(s2.getHomeTeamName());
-                    }
-                });
+
 
                 Collections.sort(hometeamList, new Comparator<TeamResult>() {
                     public int compare(TeamResult s1, TeamResult s2) {
